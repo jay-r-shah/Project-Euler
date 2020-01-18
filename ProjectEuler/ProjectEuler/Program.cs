@@ -10,16 +10,39 @@ namespace ProjectEuler
     {
         static void Main(string[] args)
         {
-            int nSides = SpiralPrimes();
+            double nSides = PythagoreanTriplet();
             Console.WriteLine(nSides);
 
             Console.Read();
         }
 
-        private static int PythagoreanTriplet()
+        private static double PythagoreanTriplet()
         {
+            int a = 3;
+            int b = 4;
 
-            return 0;
+            double c = Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
+
+            while (true)
+            {
+                if (c % 1 < 1e-4)
+                {
+                    Console.WriteLine("{0} + {1} + {2} = {3}", a, b, c, a + b + c);
+                }
+                b++;
+                if (b > 499)
+                {
+                    a++;
+                    b = a + 1;
+                }
+                c = Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
+                if (a + b + c == 1000)
+                {
+                    Console.WriteLine("{0} + {1} + {2} = {3}", a, b, c, a + b + c);
+                    break;
+                }
+            }
+            return a*b*c;
         }
 
         private static int SpiralPrimes()
