@@ -10,10 +10,71 @@ namespace ProjectEuler
     {
         static void Main(string[] args)
         {
-            double nSides = PythagoreanTriplet();
-            Console.WriteLine(nSides);
+            LychrelNumbers();
+            //Console.WriteLine(nSides);
 
             Console.Read();
+        }
+
+        static void LychrelNumbers()
+        {
+            int nLychrel = 0;
+            HashSet<long> isNotLychrel = new HashSet<long>();
+            for (int i = 1; i < 10000; i++)
+            {
+                int? iterations = IterationsForPalindrome(i, isNotLychrel);
+                if (iterations is null)
+                {
+                    nLychrel++;
+                }
+                else
+                {
+                    isNotLychrel.Add(i);
+                }
+            }
+            Console.WriteLine(nLychrel);
+        }
+
+        private static int? IterationsForPalindrome(long i, HashSet<long> isNotLychrel)
+        {
+            long j = ReverseInt(i);
+            //if (isNotLychrel.Contains(j))
+            //{
+            //    return 0;
+            //}
+            int count = 1;
+            HashSet<long> numbersReached = new HashSet<long>(); 
+            while (i + j != ReverseInt(i + j))
+            {
+                count++;
+                if (count >= 50)
+                {
+                    return null;
+                }
+                i = i + j;
+                if (i < 10000)
+                {
+                    numbersReached.Add(i);
+                }
+                if (j < 10000)
+                {
+                    numbersReached.Add(j);
+                }
+                j = ReverseInt(i);
+            }
+            isNotLychrel.UnionWith(numbersReached);
+            return count;
+        }
+
+        static long ReverseInt(long num)
+        {
+            long result = 0;
+            while (num > 0)
+            {
+                result = result * 10 + num % 10;
+                num /= 10;
+            }
+            return result;
         }
 
         private static double PythagoreanTriplet()
