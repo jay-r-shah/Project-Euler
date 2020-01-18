@@ -18,30 +18,32 @@ namespace ProjectEuler
 
         static long CircularPrime()
         {
-            int nCircularPrimes = 0;
-            for (long i = 2; i < 1e6; i++)
+            int max = 1000000;
+            HashSet<int> circularPrimes = new HashSet<int>();
+            for (int i = 2; i < max; i++)
             {
-                if (IsPrime(i))
+                if (!circularPrimes.Contains(i) && IsPrime(i))
                 {
                     int numberLength = i.ToString().Length;
                     int primeRotations = 0;
                     long rotation = i;
+                    HashSet<int> currentSet = new HashSet<int>();
                     for (int j = 0; j < numberLength; j++)
                     {
+                        currentSet.Add(Convert.ToInt32(rotation));
                         rotation = RotateNumber(rotation);
                         if (IsPrime(rotation))
                             primeRotations++;
                     }
                     if (numberLength == primeRotations)
                     {
-                        Console.WriteLine(i);
-                        nCircularPrimes++;
+                        circularPrimes.UnionWith(currentSet.Where(x => x < max));
                     }
 
                 }
             }
 
-            return nCircularPrimes;
+            return circularPrimes.Count();
         }
 
         private static long RotateNumber(long i)
