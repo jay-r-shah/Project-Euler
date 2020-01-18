@@ -11,9 +11,51 @@ namespace ProjectEuler
         static void Main(string[] args)
         {
             //LychrelNumbers();
-            Console.WriteLine(GoldBachsOtherConjecture());
+            Console.WriteLine(CircularPrime());
 
             Console.Read();
+        }
+
+        static long CircularPrime()
+        {
+            int nCircularPrimes = 0;
+            for (long i = 2; i < 1e6; i++)
+            {
+                if (IsPrime(i))
+                {
+                    int numberLength = i.ToString().Length;
+                    int primeRotations = 0;
+                    long rotation = i;
+                    for (int j = 0; j < numberLength; j++)
+                    {
+                        rotation = RotateNumber(rotation);
+                        if (IsPrime(rotation))
+                            primeRotations++;
+                    }
+                    if (numberLength == primeRotations)
+                    {
+                        Console.WriteLine(i);
+                        nCircularPrimes++;
+                    }
+
+                }
+            }
+
+            return nCircularPrimes;
+        }
+
+        private static long RotateNumber(long i)
+        {
+            long lastDigit = i % 10;
+            if (lastDigit == i) // for single digit numbers
+            {
+                return i;
+            }
+            long remaining = (i - lastDigit) / 10;
+
+            string rotation = lastDigit.ToString() + remaining.ToString();
+
+            return Convert.ToInt64(rotation);
         }
 
         static long GoldBachsOtherConjecture()
