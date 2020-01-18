@@ -10,10 +10,38 @@ namespace ProjectEuler
     {
         static void Main(string[] args)
         {
-            LychrelNumbers();
-            //Console.WriteLine(nSides);
+            //LychrelNumbers();
+            Console.WriteLine(GoldBachsOtherConjecture());
 
             Console.Read();
+        }
+
+        static long GoldBachsOtherConjecture()
+        {
+            long i = 9;
+            while (true)
+            {
+                bool isTrue = true;
+                for (long p = 2; p < i; p++)
+                {
+                    if (!IsPrime(i) && IsPrime(p))
+                    {
+                        isTrue = Math.Sqrt((double)(i - p) / 2) % 1 < 1e-4;
+                    }
+                    if (isTrue)
+                    {
+                        Console.WriteLine("{0} = {1} + 2*{2}^2", i, p, Math.Floor(Math.Sqrt((double)(i - p) / 2)));
+                        break;
+                    }
+                }
+                if (!isTrue)
+                {
+                    break;  
+                }
+                i += 2;
+            }
+
+            return i;
         }
 
         static void LychrelNumbers()
@@ -159,15 +187,15 @@ namespace ProjectEuler
             return false;
         }
 
-        static bool IsPrime(int number)
+        static bool IsPrime(long number)
         {
             if (number <= 1) return false;
             if (number == 2) return true;
             if (number % 2 == 0) return false;
 
-            var boundary = (int)Math.Floor(Math.Sqrt(number));
+            var boundary = (long)Math.Floor(Math.Sqrt(number));
 
-            for (int i = 3; i <= boundary; i += 2)
+            for (long i = 3; i <= boundary; i += 2)
                 if (number % i == 0)
                     return false;
 
