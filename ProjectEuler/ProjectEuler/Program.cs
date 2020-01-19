@@ -11,9 +11,57 @@ namespace ProjectEuler
         static void Main(string[] args)
         {
             //LychrelNumbers();
-            Console.WriteLine(CircularPrime());
+            Console.WriteLine(LongestCollatzSequence());
 
             Console.Read();
+        }
+        
+        static int LongestCollatzSequence()
+        {
+            int maxCount = 0;
+            int highestCountStart = 999999;
+            for (int start = 999999; start > 1; start--)
+            {
+                int count = 0;
+                long n = start;
+                while (n != 1)
+                {
+                    if (n % 2 == 0)
+                    {
+                        n = n / 2;
+                    }
+                    else
+                    {
+                        n = 3 * n + 1;
+                    }
+                    count++;
+                }
+                if (count > maxCount)
+                {
+                    maxCount = count;
+                    highestCountStart = start;
+                }
+            }
+            return highestCountStart;
+        }
+
+        static long PermutedMultiples()
+        {
+            for (long x = 1000; x < 1e6; x++)
+            {
+                string x1 = String.Join("", (1 * x).ToString().OrderBy(c => c));
+                string x2 = String.Join("", (2 * x).ToString().OrderBy(c => c));
+                string x3 = String.Join("", (3 * x).ToString().OrderBy(c => c));
+                string x4 = String.Join("", (4 * x).ToString().OrderBy(c => c));
+                string x5 = String.Join("", (5 * x).ToString().OrderBy(c => c));
+                string x6 = String.Join("", (6 * x).ToString().OrderBy(c => c));
+
+                if (x1 == x2 && x2 == x3 && x3 == x4 && x4 == x5 && x5 == x6)
+                {
+                    return x;
+                }
+            }
+            return 0;
         }
 
         static long CircularPrime()
