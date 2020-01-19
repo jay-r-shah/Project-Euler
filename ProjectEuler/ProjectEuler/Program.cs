@@ -20,30 +20,50 @@ namespace ProjectEuler
         {
             int maxCount = 0;
             int highestCountStart = 999999;
-            for (int start = 999999; start > 1; start--)
+            Dictionary<long, int> collatzCounts = new Dictionary<long, int>();
+            for (int start = 2; start < 1000000; start++)
             {
-                int count = 0;
-                long n = start;
-                while (n != 1)
+                int num = GetCollatzNumber(start, collatzCounts);
+
+                if (num > maxCount)
                 {
-                    if (n % 2 == 0)
-                    {
-                        n = n / 2;
-                    }
-                    else
-                    {
-                        n = 3 * n + 1;
-                    }
-                    count++;
-                }
-                if (count > maxCount)
-                {
-                    maxCount = count;
+                    maxCount = num;
                     highestCountStart = start;
                 }
             }
+            int x = collatzCounts.Keys.Distinct().Count();
             return highestCountStart;
         }
+
+        private static int GetCollatzNumber(long start, Dictionary<long, int> collatzCounts)
+        {
+            if (collatzCounts.TryGetValue(start, out var count))
+            {
+                return count;
+            }
+            else
+            {
+                count = 0;
+                long num = start;
+                while (num != 1)
+                {
+                    if (num % 2 == 0)
+                    {
+                        num = num / 2;
+                    }
+                    else
+                    {
+                        num = 3 * num + 1;
+                    }
+                    count = count + GetCollatzNumber(num, collatzCounts);
+                    count++;
+                    num = 1;
+                }
+                collatzCounts.Add(start, count);
+            }
+            return count;
+        }
+
 
         static long PermutedMultiples()
         {
