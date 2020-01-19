@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ProjectEuler
 {
@@ -10,9 +11,11 @@ namespace ProjectEuler
     {
         static void Main(string[] args)
         {
-            //LychrelNumbers();
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             Console.WriteLine(LongestCollatzSequence());
-
+            stopWatch.Stop();
+            Console.WriteLine("{0} ms",stopWatch.ElapsedMilliseconds);
             Console.Read();
         }
         
