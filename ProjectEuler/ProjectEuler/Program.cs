@@ -13,12 +13,68 @@ namespace ProjectEuler
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            Console.WriteLine(LongestCollatzSequence());
+            Console.WriteLine(SpiralDiagonals());
             stopWatch.Stop();
             Console.WriteLine("{0} ms",stopWatch.ElapsedMilliseconds);
             Console.Read();
         }
         
+        static int SpiralDiagonals()
+        {
+            int sideLength = 3;
+            int maxSkip = sideLength - 1;
+            int skip = 2;
+
+            int number = 3;
+            //Console.WriteLine(number);
+            int sum = 4;
+            int count = 2;
+            int nPrimes = 1;
+            double ratio = 1;
+
+            while (sideLength < 1003)
+            {
+                while (skip <= maxSkip)
+                {
+                    while (number < Math.Pow(sideLength, 2))
+                    {
+                        number += skip;
+                        //Console.WriteLine(number);
+                        sum += number;
+                        count++;
+                    }
+                    skip += 2;
+                }
+                ratio = (double)nPrimes / (count);
+                Console.WriteLine("{0}, {1}", sideLength, sum);
+                sideLength += 2;
+                maxSkip = sideLength - 1;
+            }
+            return sum;
+        }
+
+        static int ChampernownesConstant()
+        {
+            int product = 1;
+            int start = 1;
+            int count = 0;
+            string str = "";
+            int power = 0;
+            while (true)
+            {
+                str += Convert.ToString(start);
+                if (str.Length > Math.Pow(10,power))
+                {
+                    product *= int.Parse(str[Convert.ToInt32(Math.Pow(10, power)) - 1].ToString());
+                    power++;
+                }
+                start++;
+                if (power > 5)
+                    break;
+            }
+            return product;
+        }
+
         static int LongestCollatzSequence()
         {
             int maxCount = 0;
