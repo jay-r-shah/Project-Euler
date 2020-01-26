@@ -13,12 +13,27 @@ namespace ProjectEuler
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            Console.WriteLine(SpiralDiagonals());
+            Console.WriteLine(CoinSums(200));
             stopWatch.Stop();
             Console.WriteLine("{0} ms",stopWatch.ElapsedMilliseconds);
             Console.Read();
         }
-        
+
+        static int CoinSums(int target)
+        {
+            int[] coins = new int[] { 1, 2, 5, 10, 20, 50, 100, 200 };
+            int[] table = new int[target + 1];
+            table[0] = 1;
+            for (var i = 0; i < coins.Count(); i++)
+            {
+                for (int j = coins[i]; j <= target; j++)
+                {
+                    table[j] += table[j - coins[i]];
+                }
+            }
+            return table[target];
+        }
+
         static int SpiralDiagonals()
         {
             int sideLength = 3;
